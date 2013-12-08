@@ -1,0 +1,4 @@
+{{extend 'layout.html'}}
+
+{{=A('Forward all photos', _class='btn btn-large', _href=URL('create', 'set_rule', args=[0]))}}
+{{=A('Use a keyword', _class='btn btn-large', _href=URL('create', 'set_rule', args=[1], vars={'keyword':'#grandma'}))}}

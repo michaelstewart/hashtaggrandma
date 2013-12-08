@@ -1,0 +1,16 @@
+{{extend 'layout.html'}}
+
+<h2>Addresses</h2>
+
+{{if physical_list:}}
+<h3>Physical Addresses</h3>
+{{=physical_list}}
+{{pass}}
+
+{{if digital_list:}}
+<h3>Digital Addresses</h3>
+{{=digital_list}}
+{{pass}}
+{{pass}}
+
+{{=A('Add Address', _class='btn', _href=URL('create', 'address'), _style='margin-top:20px;')}}

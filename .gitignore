@@ -1,0 +1,10 @@
+cache/
+databases/
+errors/
+sessions/
+uploads/
+*.pyc
+*.bak
+.DS_STORE
+models/db.py
+
