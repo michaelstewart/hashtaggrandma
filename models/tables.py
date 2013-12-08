@@ -16,10 +16,14 @@ auth.settings.extra_fields['auth_user']= [
   ]
 
 # create all tables needed by auth if not custom tables
-# We want users to login with their email addresses, so no usernames
 auth.define_tables(username=True, signature=False)
 
 db.auth_user.account_balance.writable = False
+db.auth_user.username.writable = False
+# Make fields optional
+db.auth_user.email.requires = IS_EMPTY_OR(IS_NOT_EMPTY())
+db.auth_user.first_name.requires = IS_EMPTY_OR(IS_NOT_EMPTY())
+db.auth_user.last_name.requires = IS_EMPTY_OR(IS_NOT_EMPTY())
 
 ## physical_addresses Table
 # 
@@ -41,7 +45,6 @@ db.physical_addresses.id.readable = False
 ## digital_addresses Table
 db.define_table('digital_addresses',
 	Field('user_id', db.auth_user, default=auth.user_id),
-	# Field('nick_name', 'string'),		# What the user calls the address eg. Grandma's Email
 	Field('name', 'string'),			# Name that the email will be addressed to
 	Field('email', 'string', requires=IS_EMAIL(error_message='invalid email!'))
 )
@@ -61,11 +64,11 @@ db.define_table('mailing_rules',
 
 ## photos Table
 db.define_table('photos',
-	Field('user_id', db.auth_user, default=auth.user_id),
-	Field('instagram_id', 'string'),			# instagram id of the photo
-	Field('local_id', 'string'),				# id of the local copy. All photos will be stored in a folder with unique names.
-	Field('description', 'text'),				# the description attached to the image
-	Field('posted_on', 'datetime')
+	Field('instagram_username', 'string'),
+	Field('media_id', 'string'),			# instagram id of the photo
+	Field('standard_url', 'text'),			# link to the photo
+	Field('caption', 'text'),				# the description attached to the image
+	Field('posted_on', 'datetime', default=datetime.datetime.now())
 )
 
 ## mail_items Table
