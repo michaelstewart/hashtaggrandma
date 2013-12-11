@@ -26,6 +26,7 @@ body {
   background-image: linear-gradient(to bottom,#428bca,#4086c3);
   color: #FFF;
   border: 0;
+  height: 42px;
 }
 
 #in-navbar .brand {
@@ -36,12 +37,39 @@ body {
   color: #FFF;
 }
 
+#in-navbar .nav>li.dropdown>a:hover {
+  background-color:#114a7c;
+}
+
+#in-navbar .nav>li.dropdown.open>a {
+  background-color:#114a7c;
+}
+
 /* Main */
 
 #main {
   min-height: 300px;
 }
 
+#navbar .caret {
+  border-top-color: #FFF;
+  border-bottom-color: #FFF;
+}
+
+/* Profile Page */
+
+#addOptions {
+  margin: 0 0 20px 0;
+}
+
+
+#addOptions span {
+  margin-left: 20px;
+}
+
+#addOptions span input {
+  margin-top: -5px;
+}
 
 /* Side Menu */
 

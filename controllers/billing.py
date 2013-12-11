@@ -20,6 +20,19 @@ def applyCharge():
 		)
 		print charge
 		session.flash = 'Your payment has been processed, thanks!'
+		print 'Payment successful, updating DB...'
+		user = db(db.auth_user.id == auth.user_id).select().first()
+		balance = user.account_balance + float(amount)/100.0
+		user.update_record(account_balance=balance)
+		print 'DB updated'
+		print 'Sending receipt email...'
+		if auth.user.email:
+			mail.send(auth.user.email,
+					  subject='Thank you for your Payment!',
+					  message='Hi %s,\n\nThank you for your payment of $%.2f to Hashtag Grandma\n\nRegards,\nThe Hashtag Grandma Team' % (auth.user.first_name, float(amount)/100.0)
+					  )
+		print 'Email sent'
+
 	except stripe.CardError, e:
 		# The card has been declined
 		session.flash = 'There was an error with your payment, please contact support'

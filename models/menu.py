@@ -5,8 +5,7 @@
 ## Customize your APP title, subtitle and menus here
 #########################################################################
 
-response.logo = A('Hashtag Grandma',
-                  _class="brand",_href="/")
+response.logo = A(IMG(_src=URL('static', 'img', args=['logo_white.png']), _alt="Hashtag Grandma"), _class="brand",_href="/")
 response.title = request.application.replace('_',' ').title()
 response.subtitle = ''
 

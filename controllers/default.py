@@ -18,11 +18,10 @@ def index():
     if you need a simple wiki simply replace the two lines below with:
     return auth.wiki()
     """
+    response.title = T('Hashtag Grandma | Home')
     if auth.user_id:
         if len(db(db.mailing_rules.user_id == auth.user_id).select()) > 0:
             redirect(URL('view', 'addresses'))
-        else:
-            redirect(URL('create', 'address'))
     return dict()
 
 
@@ -42,6 +41,7 @@ def user():
     to decorate functions that need access control
     """
     request.requires_https()
+    response.title = T('Hashtag Grandma | User')    
 
     email = auth.user.email if auth.user else False
 

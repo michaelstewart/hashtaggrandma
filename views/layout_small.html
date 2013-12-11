@@ -15,7 +15,7 @@
   <!-- Always force latest IE rendering engine
        (even in intranet) & Chrome Frame
        Remove this if you use the .htaccess -->
-	   
+     
   <meta charset="utf-8" />
 
   <!-- http://dev.w3.org/html5/markup/meta.name.html -->
@@ -41,11 +41,12 @@
 
   <!-- include stylesheets -->
   {{
-  response.files.insert(0,URL('static','css/web2py.css'))
+  response.files.insert(0,URL('static','css/web2py.css'))  
   response.files.insert(1,URL('static','css/bootstrap.min.css'))
   response.files.insert(2,URL('static','css/bootstrap-responsive.min.css'))
   response.files.insert(3,URL('static','css/web2py_bootstrap.css'))
-  response.files.insert(0,URL('static','css/stylish-portfolio.css'))
+  response.files.insert(4,URL('static','css/component.css'))
+  response.files.insert(5,URL('static','css/default.css'))
   }}
 
   {{include 'web2py_ajax.html'}}
@@ -54,7 +55,7 @@
   # using sidebars need to know what sidebar you want to use
   left_sidebar_enabled = globals().get('left_sidebar_enabled',False)
   right_sidebar_enabled = globals().get('right_sidebar_enabled',False)
-  middle_columns = {0:'span12',1:'span9',2:'span6'}[
+  middle_columns = {0:'span5',1:'span9',2:'span6'}[
     (left_sidebar_enabled and 1 or 0)+(right_sidebar_enabled and 1 or 0)]
   }}
 
@@ -64,31 +65,43 @@
        uncomment to load jquery-ui //-->
   <noscript><link href="{{=URL('static', 'css/web2py_bootstrap_nojs.css')}}" rel="stylesheet" type="text/css" /></noscript>
   {{block head}}{{end}}
+
+
+  <style type="text/css">
+    html {
+      width: 590px;
+    }
+    body {
+      background-color: #428BCA;
+      color: #FFF;
+      width: 590px;
+    }
+    .container {
+      width: 550px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+    h3 {
+      margin: 0;
+      padding: 5px 5px 5px 0px;
+      text-align: center;
+      font-size: 2.4em;
+      font-weight: 300;
+      opacity: 0.8;
+    }
+    ul#addressTabs li a {
+      color: #FFF;
+    }
+    ul#addressTabs li.active a {
+      color: #555;
+    }
+  </style>
 </head>
 
 <body>
-  <!-- Navbar ================================================== -->
-  <div class="navbar navbar-inverse">
-    <div class="flash">{{=response.flash or ''}}</div>
-    <div id="in-navbar" class="navbar-inner">
-      <div class="container">
-        {{is_mobile=request.user_agent().is_mobile}}
-        <!-- the next tag is necessary for bootstrap menus, do not remove -->
-        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse" style="{{='display:none;' if not is_mobile else ''}}">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        {{=response.logo or ''}}
-        <ul id="navbar" class="nav pull-right">{{='auth' in globals() and auth.navbar(mode="dropdown") or ''}}</ul>
-        <div class="{{='nav-collapse' if is_mobile else 'nav'}}">
-          {{if response.menu:}}
-          {{=MENU(response.menu, _class='mobile-menu nav' if is_mobile else 'nav',mobile=is_mobile,li_class='dropdown',ul_class='dropdown-menu')}}
-          {{pass}}
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
-  </div><!--/top navbar -->
+  
+
 
   <div class="container">
     <!-- Masthead ================================================== -->
@@ -119,16 +132,6 @@
         {{pass}}
     </section><!--/main-->
 
-    <!-- Footer ================================================== -->
-    <div class="row">
-        <footer class="footer span12" id="footer">
-            <div class="footer-content text-center">
-                {{block footer}} <!-- this is default footer -->
-                <div class="copyright">{{=T('Copyright Hashtag Grandma')}} &#169; {{=request.now.year}}</div>
-                {{end}}
-            </div>
-        </footer>
-    </div>
 
   </div> <!-- /container -->
 
@@ -141,14 +144,7 @@
       <script> DD_belatedPNG.fix('img, .png_bg'); //fix any <img> or .png_bg background-images </script>
       <![endif]-->
   
-  {{if response.google_analytics_id:}}
-  <script src="{{=URL('static','js/analytics.min.js')}}"></script>
-  <script type="text/javascript">
-  analytics.initialize({
-    'Google Analytics':{trackingId:'{{=response.google_analytics_id}}'} 
-  });</script>
-  {{pass}}
-  <script src="{{=URL('static','js/share.js',vars=dict(static=URL('static','images')))}}"></script>
+
 </body>
 </html>
 

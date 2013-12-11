@@ -16,13 +16,17 @@ pass
 {{
 if request.args(0)=='profile':
 }}
-<h2>Add funds to your account</h2>
+<h2>Add Funds to Your Account</h2>
 
+
+<p>How much would you like to add:</p>
+<div id="addOptions">
 {{
 for v in [5, 10, 20]:
-	=FIELDSET('$%.2f: ' % v, INPUT(_type='radio', _name='amount', _value=v, value=5, _class='amountRadio'), _class='value')
+  =SPAN(INPUT(_type='radio', _name='amount', _value=v, value=5, _class='amountRadio'), ' $%.2f' % v)
 	pass
 }}
+</div>
 
 <script src="https://checkout.stripe.com/checkout.js"></script>
 
@@ -32,7 +36,7 @@ for v in [5, 10, 20]:
 var amount = 0;
   var handler = StripeCheckout.configure({
     key: 'pk_test_cwYTCTSBJFULIVQr3BB2OP7Q',
-    // image: '/square-image.png',
+    image: '{{=URL('static', 'img', args=['stripelogo.png'])}}',
     token: function(token, args) {
       // Use the token to create the charge with a server-side script.
       window.location.replace('{{=URL('billing', 'applyCharge', scheme=True)}}/?' 

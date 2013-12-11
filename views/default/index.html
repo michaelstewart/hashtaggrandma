@@ -45,6 +45,8 @@
   response.files.insert(1,URL('static','font-awesome/css/font-awesome.min.css'))
   response.files.insert(2,URL('static','css/web2py.css'))
   response.files.insert(3,URL('static','css/bootstrap.css'))
+  response.files.insert(4,URL('static','css/component.css'))
+  response.files.insert(5,URL('static','css/default.css'))
   #response.files.insert(4,URL('static','css/bootstrap-responsive.min.css'))
   #response.files.insert(5,URL('static','css/web2py_bootstrap.css'))
   }}
@@ -70,9 +72,9 @@
     <!-- Full Page Image Header Area -->
     <div id="top" class="header">
       <div class="vert-text">
-        <h1>#Grandma</h1>
+        <img src="{{=URL('static', 'img', args=['logo.png'])}}" alt="Hashtag Grandma">
         <h3>Share your online life with your parents and grandparents.</h3>
-        <a href="{{=URL('default', 'user', args='login')}}" style="margin-top:10px" class="btn btn-primary btn-lg">Login via Instagram</a><br>
+        <a href="{{=URL('default', 'user', args='login')}}" style="margin-top:10px" class="btn btn-primary btn-lg">Login via Instagram <img style="margin-left:5px;" src="{{=URL('static', 'img', args=['insta.png'])}}"></a><br>
         <a href="#about" style="margin-top:15px" class="btn btn-default btn-lg">Tell me more</a>
       </div>
     </div>
@@ -174,7 +176,8 @@
         <div class="row">
           <div class="col-md-6 col-md-offset-3 text-center">
             <h3>Get Started Now!</h3>
-            <a href="{{=URL('default', 'user', args='login')}}" class="btn btn-primary btn-lg">Login via Instagram</a>
+            <a href="{{=URL('default', 'user', args='login')}}" class="btn btn-primary btn-lg">Login via Instagram <img style="margin-left:5px;" src="{{=URL('static', 'img', args=['insta.png'])}}"></a>
+            
           </div>
         </div>
       </div>
@@ -198,18 +201,80 @@
     </footer>
     <!-- /Footer -->
 
+<div class="md-modal md-effect-1" id="modal">
+    <div class="md-content">
+        <h3>Setup Your Account</h3>
+        
+        <iframe style="width:630px; height:400px; overflow-x: hidden; overflow-y: scroll;" frameBorder="0" src="{{=URL('create', 'address_m')}}"></iframe>
+    </div>
+</div>
 
+
+<div class="md-overlay"></div>
 
 
   <!-- The javascript =============================================
        (Placed at the end of the document so the pages load faster) -->
   <script src="{{=URL('static','js/bootstrap.min.js')}}"></script>
   <script src="{{=URL('static','js/web2py_bootstrap.js')}}"></script>
+  <script src="{{=URL('static','js/classie.js')}}"></script>
+  <script src="{{=URL('static','js/cssParser.js')}}"></script>
+  
+
   <!--[if lt IE 7 ]>
       <script src="{{=URL('static','js/dd_belatedpng.js')}}"></script>
       <script> DD_belatedPNG.fix('img, .png_bg'); //fix any <img> or .png_bg background-images </script>
       <![endif]-->
 
+{{
+if auth.user_id:
+  if len(db(db.mailing_rules.user_id == auth.user_id).select()) == 0:
+}}
+HI
+{{
+  pass
+pass
+}}
+
+<script>
+var ModalEffects = (function() {
+
+  function init() {
+
+    var overlay = document.querySelector( '.md-overlay' );
+
+    var modal = document.getElementById( 'modal' );
+
+    function removeModal( hasPerspective ) {
+      classie.remove( modal, 'md-show' );
+
+      if( hasPerspective ) {
+        classie.remove( document.documentElement, 'md-perspective' );
+      }
+    }
+
+    function removeModalHandler() {
+      removeModal( classie.has( modal, 'md-setperspective' ) ); 
+    }
+
+    classie.add( modal, 'md-show' );
+    overlay.removeEventListener( 'click', removeModalHandler );
+    overlay.addEventListener( 'click', removeModalHandler );
+
+    if( classie.has( modal, 'md-setperspective' ) ) {
+      setTimeout( function() {
+        classie.add( document.documentElement, 'md-perspective' );
+      }, 25 );
+    }
+  }
+  setTimeout(init, 500);
+
+  // init();
+
+})();
+
+
+</script>
 
 <!-- Custom JavaScript for the Side Menu and Smooth Scrolling - Put in a custom JavaScript file to clean this up -->
     <script>

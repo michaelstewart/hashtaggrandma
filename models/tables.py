@@ -25,6 +25,8 @@ db.auth_user.username.writable = False
 db.auth_user.email.requires = IS_EMPTY_OR(IS_EMAIL())
 db.auth_user.first_name.requires = IS_EMPTY_OR(IS_NOT_EMPTY())
 db.auth_user.last_name.requires = IS_EMPTY_OR(IS_NOT_EMPTY())
+db.auth_user.account_balance.represent = lambda amt,row: '$%.2f' % amt
+
 
 ## List of possible countries for shipping
 db.define_table('country',

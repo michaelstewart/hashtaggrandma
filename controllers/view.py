@@ -7,6 +7,8 @@ def addresses():
     List returns a list of all addresses digital and physical that the user has registered.
     The view will iterate over the items of the list and display them all.
     """
+    response.title = T('Hashtag Grandma | Addresses')
+
     fields = ['']
     q = db.physical_addresses.user_id == auth.user_id
     physical_list = SQLFORM.grid(q,
