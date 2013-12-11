@@ -1,0 +1,8 @@
+{{extend 'layout_small.html'}}
+
+<h3>Your account has been setup</h3>
+
+<div id="container" style="margin-top:40px;">
+{{=A('View addresses', _class='btn btn-large', _target='_top', _href=URL('view', 'addresses'))}}
+{{=A('Add funds to account to ', _class='btn btn-large', _target='_top', _href=URL('default', 'user', args=['profile']))}}
+</div>
