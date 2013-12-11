@@ -4,7 +4,6 @@ import json
 import images
 import urllib, os
 
-
 def callback():
 	''' Function that handles the Instagram callback when a new image is posted '''
 

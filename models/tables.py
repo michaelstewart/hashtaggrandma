@@ -20,10 +20,19 @@ auth.define_tables(username=True, signature=False)
 
 db.auth_user.account_balance.writable = False
 db.auth_user.username.writable = False
+
 # Make fields optional
-db.auth_user.email.requires = IS_EMPTY_OR(IS_NOT_EMPTY())
+db.auth_user.email.requires = IS_EMPTY_OR(IS_EMAIL())
 db.auth_user.first_name.requires = IS_EMPTY_OR(IS_NOT_EMPTY())
 db.auth_user.last_name.requires = IS_EMPTY_OR(IS_NOT_EMPTY())
+
+## List of possible countries for shipping
+db.define_table('country',
+                Field('iso'),
+                Field('name'),
+                Field('printable_name'),
+                Field('iso3'),
+                Field('numcode'))
 
 ## physical_addresses Table
 # 
@@ -41,6 +50,31 @@ db.define_table('physical_addresses',
 
 db.physical_addresses.user_id.writable = db.physical_addresses.user_id.readable = False
 db.physical_addresses.id.readable = False
+db.physical_addresses.line1.label = 'Address Line 1'
+db.physical_addresses.line2.label = 'Address Line 2'
+# db.physical_addresses.country.requires = IS_IN_DB(db, 'country.iso')
+db.physical_addresses.country.widget = SQLFORM.widgets.autocomplete(request,
+				db.country.printable_name, limitby=(0,10), min_length=2, id_field=db.country.iso)
+
+
+# Address Validator
+def validate_address(form):
+	import sys
+	print form.vars.country
+	try:
+		address = lob.Address.create(name=form.vars.name, address_line1=form.vars.line1,
+								 address_line2=form.vars.line2, 
+	                             address_city=form.vars.ctiy, address_state=form.vars.state_name, 
+	                             address_country=form.vars.country,
+	                             address_zip=form.vars.zip_code)
+		print address.to_dict()
+	except lob.exceptions.InvalidRequestError as e:
+		session.flash = e.message[0]['message']
+		# form.errors.country = 'Please enter a valid country'
+		form.errors.random = True
+		print e.message[0]['message']
+
+
 
 ## digital_addresses Table
 db.define_table('digital_addresses',
@@ -51,7 +85,6 @@ db.define_table('digital_addresses',
 db.digital_addresses.user_id.writable = db.digital_addresses.user_id.readable = False
 db.digital_addresses.email.requires = (IS_EMAIL(error_message='invalid email!'), IS_NOT_IN_DB(db, 'digital_addresses.email'))
 db.digital_addresses.id.readable = False
-
 
 ## mailing_rules Table
 db.define_table('mailing_rules', 
@@ -102,6 +135,8 @@ db.define_table('payments',
 	Field('coupon_code', 'string'),
 	Field('paypal_id', db.paypal_payments)			# link the payment to the details about the paypal transaction
 )
+
+
 
 
 

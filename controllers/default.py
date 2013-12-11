@@ -18,8 +18,6 @@ def index():
     if you need a simple wiki simply replace the two lines below with:
     return auth.wiki()
     """
-    # print ('User:', user)
-
     if auth.user_id:
         if len(db(db.mailing_rules.user_id == auth.user_id).select()) > 0:
             redirect(URL('view', 'addresses'))
@@ -43,7 +41,11 @@ def user():
         @auth.requires_permission('read','table name',record_id)
     to decorate functions that need access control
     """
-    return dict(form=auth())
+    request.requires_https()
+
+    email = auth.user.email if auth.user else False
+
+    return dict(form=auth(), email=email)
 
 @cache.action()
 def download():

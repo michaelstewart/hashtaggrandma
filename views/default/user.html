@@ -13,6 +13,58 @@ if request.args(0)=='login':
 pass
 =form
 }}
+{{
+if request.args(0)=='profile':
+}}
+<h2>Add funds to your account</h2>
+
+{{
+for v in [5, 10, 20]:
+	=FIELDSET('$%.2f: ' % v, INPUT(_type='radio', _name='amount', _value=v, value=5, _class='amountRadio'), _class='value')
+	pass
+}}
+
+<script src="https://checkout.stripe.com/checkout.js"></script>
+
+<button id="customButton">Purchase</button>
+
+<script>
+var amount = 0;
+  var handler = StripeCheckout.configure({
+    key: 'pk_test_cwYTCTSBJFULIVQr3BB2OP7Q',
+    // image: '/square-image.png',
+    token: function(token, args) {
+      // Use the token to create the charge with a server-side script.
+      window.location.replace('{{=URL('billing', 'applyCharge', scheme=True)}}/?' 
+      	+ 'tok=' + encodeURIComponent(token.id)
+      	+ '&amt=' + encodeURIComponent(amount));
+    }
+  });
+
+  $('#customButton').click(function(e) {
+  	selectedValue = 0;
+	var radios = $('.amountRadio');
+	$('.amountRadio').each(function() {
+		if(this.checked) selectedValue = this.value;   
+	});
+
+	amount = selectedValue*100;
+	// Open Checkout with further options
+	handler.open({
+      name: 'Hashtag Grandma',
+      description: 'Account top up ($' + selectedValue + ')',
+      email: '{{if email: 
+      	=email
+      pass }}',
+      amount: amount,
+    });
+    e.preventDefault();
+  });
+</script>
+
+{{
+pass
+}}
 </div>
 <script language="javascript"><!--
 jQuery("#web2py_user_form input:visible:enabled:first").focus();

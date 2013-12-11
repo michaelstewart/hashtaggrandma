@@ -11,7 +11,7 @@ response.title = request.application.replace('_',' ').title()
 response.subtitle = ''
 
 ## read more at http://dev.w3.org/html5/markup/meta.name.html
-response.meta.author = 'Your Name <you@example.com>'
+response.meta.author = 'Michael Stewart <michael@stewart.io>'
 response.meta.description = 'a cool new app'
 response.meta.keywords = 'web2py, python, framework'
 response.meta.generator = 'Web2py Web Framework'
@@ -24,7 +24,9 @@ response.google_analytics_id = None
 #########################################################################
 
 response.menu = [
-    (T('Home'), False, URL('default', 'index'), [])
+    (T('Home'), False, URL('default', 'index'), []),
+    ('Add a New Address', False, URL('create', 'address')),
+    ('View your Addresses', False, URL('view', 'addresses'))
 ]
 
 DEVELOPMENT_MENU = True
@@ -39,8 +41,7 @@ def _():
     ctr = request.controller
     # useful links to internal and external resources
     response.menu += [
-        ('Add a New Address', False, URL('create', 'address')),
-        ('View your Addresses', False, URL('view', 'addresses'))
+        
         ]
 if DEVELOPMENT_MENU: _()
 

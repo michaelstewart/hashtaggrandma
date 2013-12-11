@@ -1,4 +1,45 @@
 {{extend 'layout.html'}}
 
-{{=A('Forward all photos', _class='btn btn-large', _href=URL('create', 'set_rule', args=[0]))}}
-{{=A('Use a keyword', _class='btn btn-large', _href=URL('create', 'set_rule', args=[1], vars={'keyword':'#grandma'}))}}
+{{=INPUT(_type='text', _name='keywordInput', _style='display:none;', _id='keywordInput', value='#grandma')}}
+{{=A('Forward all photos', _class='btn btn-large', _id='all', _href=URL('create', 'set_rule', args=[0]))}}
+{{=A('Use a keyword', _class='btn btn-large', _id='keywordButton')}}
+{{=A('Cancel', _class='btn btn-large', _id='cancel', _style='display:none;')}}
+
+
+<script>
+// Handle the use of the Use a keyword button
+inputNotEntered = true;
+keywordActive = false;
+$(document).ready(function() {
+	$('#keywordButton').click(function(e) {
+		if (keywordActive) {
+			// submit form
+			window.location.href = '{{=URL('create', 'set_rule', args=[1], scheme=True)}}' + '/?keyword=' + encodeURIComponent($('#keywordInput').val());
+		} else {
+			// display form
+			keywordActive = true;
+			$('#all').hide();
+			$('#keywordInput').fadeIn();
+			$('#keywordButton').text('Submit');
+			$('#cancel').show();
+		}
+		
+	});
+	$('#cancel').click(function(e) {
+		keywordActive = false;
+		$('#all').show();
+		$('#keywordInput').hide();
+		$('#keywordButton').text('Use a keyword');
+		$('#cancel').hide();
+	});
+	$('#keywordInput').focus(function() {
+		if (inputNotEntered) {
+			console.log('here');
+			$('#keywordInput').val('');	// Clear out the text.
+			inputNotEntered = false;
+		}
+	});
+
+})
+// URL('create', 'set_rule', args=[1], vars={'keyword':'#grandma'})
+</script>
